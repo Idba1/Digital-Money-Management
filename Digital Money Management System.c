@@ -398,18 +398,20 @@ void approve_deletion_requests()
     getch();
 }
 
-// Other functions (Deposit, Withdraw, etc.) remain unchanged.
-
 // Deposit money
 void deposit_money(struct user *current_user)
 {
     int amount;
     printf("\nEnter amount to deposit: ");
     scanf("%d", &amount);
+
     if (amount > 0)
     {
         current_user->balance += amount;
         printf("\nDeposit successful. New balance: %d\n", current_user->balance);
+
+        // Save updated balance to users.dat and individual file
+        save_user_data(current_user->phone, current_user);
     }
     else
     {
