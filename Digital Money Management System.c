@@ -298,7 +298,7 @@ void login_user()
             break;
         }
         case 5:
-            update_account(); 
+            update_account();
             break;
         case 6:
             return;
@@ -538,18 +538,26 @@ void update_account()
     fclose(fp);
 
     int choice;
-    printf("\n1. Update Phone Number\n");
-    printf("2. Update Password\n");
+    printf("\nWhich detail would you like to update?\n");
+    printf("1. Update Name\n");
+    printf("2. Update Phone Number\n");
+    printf("3. Update Password\n");
     printf("Enter your choice: ");
     scanf("%d", &choice);
 
     if (choice == 1)
     {
-        printf("Enter new phone number: ");
-        scanf("%s", user_data.phone);
-        strcpy(user_data.account_number, user_data.phone);
+        printf("Enter new name: ");
+        scanf("%s", user_data.name);
     }
     else if (choice == 2)
+    {
+        printf("Enter new phone number: ");
+        scanf("%s", user_data.phone);
+        // Update account number to match phone number
+        strcpy(user_data.account_number, user_data.phone);
+    }
+    else if (choice == 3)
     {
         printf("Enter new password: ");
         scanf("%s", user_data.password);
@@ -560,7 +568,10 @@ void update_account()
         return;
     }
 
+    // Remove the old file and create a new file with updated information
     remove(filename);
+
+    // Update the filename to reflect the new phone number
     strcpy(filename, user_data.phone);
     strcat(filename, ".dat");
 
@@ -573,7 +584,7 @@ void update_account()
     }
     else
     {
-        printf("\nError updating account.\n");
+        printf("\nError updating account. Could not open file.\n");
     }
     getch();
 }
