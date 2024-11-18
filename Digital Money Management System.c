@@ -319,9 +319,11 @@ void save_deletion_request(const struct deletion_request *request)
 // Approve account deletion requests
 void approve_deletion_requests()
 {
-    FILE *fp, *temp_fp;
+    FILE *fp, *temp_fp, *users_fp, *temp_users_fp;
     struct deletion_request request;
+    struct user user_data;
     char filename[50];
+    int found;
 
     fp = fopen("pending_requests.dat", "rb");
     if (fp == NULL)
@@ -332,9 +334,20 @@ void approve_deletion_requests()
     }
 
     temp_fp = fopen("temp_requests.dat", "wb");
+    users_fp = fopen("users.dat", "rb");
+    temp_users_fp = fopen("temp_users.dat", "wb");
+
+    if (users_fp == NULL || temp_users_fp == NULL)
+    {
+        printf("\nError: Unable to process user data.\n");
+        fclose(fp);
+        fclose(temp_fp);
+        return;
+    }
 
     printf("\n*** Pending Deletion Requests ***\n");
     divider();
+
     while (fread(&request, sizeof(struct deletion_request), 1, fp))
     {
         printf("Account: %s | Phone: %s\n", request.account_number, request.phone);
@@ -349,6 +362,20 @@ void approve_deletion_requests()
             strcat(filename, ".dat");
             remove(filename);
             printf("\nAccount deleted successfully.\n");
+
+            // Remove the account from users.dat
+            rewind(users_fp);
+            while (fread(&user_data, sizeof(struct user), 1, users_fp))
+            {
+                if (strcmp(user_data.account_number, request.account_number) != 0)
+                {
+                    fwrite(&user_data, sizeof(struct user), 1, temp_users_fp);
+                }
+                else
+                {
+                    printf("Removed from registered users: %s\n", user_data.name);
+                }
+            }
         }
         else
         {
@@ -358,8 +385,14 @@ void approve_deletion_requests()
 
     fclose(fp);
     fclose(temp_fp);
+    fclose(users_fp);
+    fclose(temp_users_fp);
+
+    // Replace files
     remove("pending_requests.dat");
     rename("temp_requests.dat", "pending_requests.dat");
+    remove("users.dat");
+    rename("temp_users.dat", "users.dat");
 
     printf("\nAll requests processed.\n");
     getch();
