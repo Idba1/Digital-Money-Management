@@ -636,6 +636,6 @@ void save_user_data(const char *filename, const struct user *current_user)
 // Exit program
 void exit_program()
 {
-    printf("\nThank you for using Digital Money Management System. Goodbye!\n");
+    printf("\nThank you for using Digital Money Management System. Have A Good Day!\n");
     getch();
 }
