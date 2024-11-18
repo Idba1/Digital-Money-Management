@@ -333,7 +333,7 @@ void update_account() {
             return;
     }
 
-    remove(filename); // Delete old file
+    remove(filename); // delete old file
     strcpy(filename, user_data.phone);
     strcat(filename, ".dat");
 
