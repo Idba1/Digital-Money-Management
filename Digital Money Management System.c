@@ -426,6 +426,7 @@ void withdraw_money(struct user *current_user)
     int amount;
     printf("\nEnter amount to withdraw: ");
     scanf("%d", &amount);
+
     if (amount > current_user->balance)
     {
         printf("\nInsufficient balance.\n");
@@ -434,6 +435,9 @@ void withdraw_money(struct user *current_user)
     {
         current_user->balance -= amount;
         printf("\nWithdrawal successful. Remaining balance: %d\n", current_user->balance);
+
+        // Save updated balance to users.dat and individual file
+        save_user_data(current_user->phone, current_user);
     }
     getch();
 }
