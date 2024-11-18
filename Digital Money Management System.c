@@ -154,8 +154,8 @@ void view_all_users()
 {
     FILE *fp;
     struct user user_data;
-    fp = fopen("users.dat", "rb");
 
+    fp = fopen("users.dat", "rb");
     if (fp == NULL)
     {
         printf("\nNo users found.\n");
@@ -165,10 +165,12 @@ void view_all_users()
 
     printf("\n*** All Registered Users ***\n");
     divider();
+
     while (fread(&user_data, sizeof(struct user), 1, fp))
     {
         printf("Name: %s | Phone: %s | Balance: %d\n", user_data.name, user_data.phone, user_data.balance);
     }
+
     fclose(fp);
     getch();
 }
