@@ -193,7 +193,8 @@ void register_user()
     printf("Enter a password: ");
     scanf("%s", new_user.password);
 
-    strcpy(new_user.account_number, new_user.phone); // Use phone number as account number
+    // Use phone number as account number
+    strcpy(new_user.account_number, new_user.phone);
     new_user.balance = 0;
 
     // Save to individual file
@@ -267,7 +268,8 @@ void login_user()
         printf("2. Withdraw Money\n");
         printf("3. View Account Details\n");
         printf("4. Request Account Deletion\n");
-        printf("5. Logout\n");
+        printf("5. Update Account Details\n");
+        printf("6. Logout\n");
         divider();
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -296,6 +298,9 @@ void login_user()
             break;
         }
         case 5:
+            update_account(); 
+            break;
+        case 6:
             return;
         default:
             printf("\nInvalid choice. Try again.\n");
