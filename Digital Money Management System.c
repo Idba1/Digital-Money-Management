@@ -569,6 +569,10 @@ void update_account()
 void save_user_data(const char *filename, const struct user *current_user)
 {
     FILE *fp = fopen(filename, "wb");
+    FILE *users_fp = fopen("users.dat", "rb");
+    FILE *temp_users_fp = fopen("temp_users.dat", "wb");
+    struct user user_data;
+
     if (fp != NULL)
     {
         fwrite(current_user, sizeof(struct user), 1, fp);
@@ -576,8 +580,33 @@ void save_user_data(const char *filename, const struct user *current_user)
     }
     else
     {
-        printf("\nError saving data.\n");
+        printf("\nError saving data to individual file.\n");
     }
+
+    if (users_fp == NULL || temp_users_fp == NULL)
+    {
+        printf("\nError updating users.dat.\n");
+        return;
+    }
+
+    // Update the specific user's details in the users.dat file
+    while (fread(&user_data, sizeof(struct user), 1, users_fp))
+    {
+        if (strcmp(user_data.account_number, current_user->account_number) == 0)
+        {
+            fwrite(current_user, sizeof(struct user), 1, temp_users_fp);
+        }
+        else
+        {
+            fwrite(&user_data, sizeof(struct user), 1, temp_users_fp);
+        }
+    }
+
+    fclose(users_fp);
+    fclose(temp_users_fp);
+
+    remove("users.dat");
+    rename("temp_users.dat", "users.dat");
 }
 
 // Exit program
