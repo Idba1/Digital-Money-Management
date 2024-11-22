@@ -342,24 +342,21 @@ void login_user()
     }
 }
 
-// Deposit money
-void deposit_money(struct user current_user)
-{
+void deposit_money(struct user current_user) {
     int amount;
     printf("\nEnter amount to deposit: ");
     scanf("%d", &amount);
 
-    if (amount > 0)
-    {
+    if (amount > 0) {
         current_user.balance += amount;
+        save_user_data(current_user); // Save the updated balance to file
         printf("\nDeposit successful. New balance: %d\n", current_user.balance);
-    }
-    else
-    {
+    } else {
         printf("\nInvalid amount.\n");
     }
     getch();
 }
+
 
 // Withdraw money
 void withdraw_money(struct user current_user)
@@ -415,17 +412,21 @@ void update_account_details(struct user current_user)
     getch();
 }
 
-// Save user data
-void save_user_data(struct user current_user)
-{
-    FILE *fp = fopen(strcat(current_user.phone, ".dat"), "wb");
-    if (fp != NULL)
-    {
+
+void save_user_data(struct user current_user) {
+    char file_name[50];
+    strcpy(file_name, current_user.phone); // Copy phone number to avoid modifying it
+    strcat(file_name, ".dat"); // Append ".dat" to create file name
+
+    FILE *fp = fopen(file_name, "wb");
+    if (fp != NULL) {
         fwrite(&current_user, sizeof(struct user), 1, fp);
         fclose(fp);
     }
-    update_users_dat(current_user);
+
+    update_users_dat(current_user); // Update global user records
 }
+
 
 // Update users.dat with user details
 void update_users_dat(struct user updated_user)
