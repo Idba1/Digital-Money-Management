@@ -366,23 +366,39 @@ struct user update_account_details(struct user current_user) {
 
 // Save user data
 void save_user_data(struct user current_user) {
-    char filename[50];
-    strcpy(filename, current_user.phone);
-    strcat(filename, ".dat");
+    FILE *fp = fopen("users.dat", "rb");
+    FILE *temp_fp = fopen("temp_users.dat", "wb");
+    struct user temp_user;
+    int found = 0;
 
-    FILE *fp = fopen(filename, "wb");
+    // Check if file opening was successful
+    if (fp == NULL && temp_fp == NULL) {
+        printf("\nError opening file.\n");
+        return;
+    }
+
+    // Update the user data if found, else add a new record
     if (fp != NULL) {
-        fwrite(&current_user, sizeof(struct user), 1, fp);
+        while (fread(&temp_user, sizeof(struct user), 1, fp)) {
+            if (strcmp(temp_user.phone, current_user.phone) == 0) {
+                fwrite(&current_user, sizeof(struct user), 1, temp_fp); // Update user
+                found = 1;
+            } else {
+                fwrite(&temp_user, sizeof(struct user), 1, temp_fp); // Write existing data
+            }
+        }
         fclose(fp);
     }
 
-    // Update global user records
-    FILE *users_fp = fopen("users.dat", "ab");
-    if (users_fp != NULL) {
-        fwrite(&current_user, sizeof(struct user), 1, users_fp);
-        fclose(users_fp);
+    if (!found) {
+        fwrite(&current_user, sizeof(struct user), 1, temp_fp); // Add new user
     }
+
+    fclose(temp_fp);
+    remove("users.dat");
+    rename("temp_users.dat", "users.dat");
 }
+
 
 // Load user data
 struct user load_user_data(char phone[]) {
@@ -413,6 +429,6 @@ void save_deletion_request(struct deletion_request request) {
 
 // Exit program
 void exit_program() {
-    printf("\nThank you for using Digital Money Management System. Goodbye!\n");
+    printf("\nThank you for using Digital Money Management System. Have A Great Day!\n");
     getch();
 }
