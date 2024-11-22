@@ -29,9 +29,11 @@ void approve_deletion_requests();
 void deposit_money(struct user current_user);
 void withdraw_money(struct user current_user);
 void account_details(struct user current_user);
+void request_account_deletion(struct user current_user);
+void update_account_details(struct user current_user);
 void save_user_data(struct user current_user);
 void update_users_dat(struct user updated_user);
-struct user load_user_data(const char *phone);
+void load_user_data(char phone[], struct user *current_user);
 void save_deletion_request(struct deletion_request request);
 void exit_program();
 void divider();
@@ -172,7 +174,7 @@ void register_user() {
     printf("Enter a password: ");
     scanf("%s", new_user.password);
 
-    strcpy(new_user.account_number, new_user.phone); 
+    strcpy(new_user.account_number, new_user.phone);  // Phone number as account number
     new_user.balance = 0;
 
     fp = fopen(strcat(new_user.phone, ".dat"), "wb");
@@ -190,8 +192,8 @@ void register_user() {
 
 // Login user
 void login_user() {
-    char phone[50], password[50];
     struct user current_user;
+    char phone[50], password[50];
 
     system("cls");
     printf("\n*** Login to Account ***\n");
@@ -202,7 +204,7 @@ void login_user() {
     printf("Enter password: ");
     scanf("%s", password);
 
-    current_user = load_user_data(phone);
+    load_user_data(phone, &current_user);
 
     if (strcmp(password, current_user.password) == 0) {
         int choice;
@@ -213,7 +215,9 @@ void login_user() {
             printf("1. Deposit Money\n");
             printf("2. Withdraw Money\n");
             printf("3. View Account Details\n");
-            printf("4. Logout\n");
+            printf("4. Request Account Deletion\n");
+            printf("5. Update Account Details\n");
+            printf("6. Logout\n");
             divider();
             printf("Enter your choice: ");
             scanf("%d", &choice);
@@ -229,6 +233,12 @@ void login_user() {
                     account_details(current_user);
                     break;
                 case 4:
+                    request_account_deletion(current_user);
+                    break;
+                case 5:
+                    update_account_details(current_user);
+                    break;
+                case 6:
                     save_user_data(current_user);
                     return;
                 default:
@@ -254,7 +264,6 @@ void deposit_money(struct user current_user) {
     } else {
         printf("\nInvalid amount.\n");
     }
-    save_user_data(current_user);
     getch();
 }
 
@@ -270,7 +279,6 @@ void withdraw_money(struct user current_user) {
         current_user.balance -= amount;
         printf("\nWithdrawal successful. Remaining balance: %d\n", current_user.balance);
     }
-    save_user_data(current_user);
     getch();
 }
 
@@ -281,6 +289,28 @@ void account_details(struct user current_user) {
     printf("Name: %s\n", current_user.name);
     printf("Phone: %s\n", current_user.phone);
     printf("Balance: %d\n", current_user.balance);
+    getch();
+}
+
+// Request account deletion
+void request_account_deletion(struct user current_user) {
+    struct deletion_request request;
+    strcpy(request.account_number, current_user.account_number);
+    strcpy(request.phone, current_user.phone);
+
+    save_deletion_request(request);
+
+    printf("\nAccount deletion request submitted.\n");
+    getch();
+}
+
+// Update account details
+void update_account_details(struct user current_user) {
+    printf("\nEnter new name: ");
+    scanf("%s", current_user.name);
+
+    printf("\nAccount details updated successfully.\n");
+    save_user_data(current_user);
     getch();
 }
 
@@ -324,25 +354,16 @@ void update_users_dat(struct user updated_user) {
 }
 
 // Load user data
-struct user load_user_data(const char *phone) {
-    FILE *fp;
-    struct user current_user;
-    char filename[60];
-
-    strcpy(filename, phone);
-    strcat(filename, ".dat");
-
-    fp = fopen(filename, "rb");
+void load_user_data(char phone[], struct user *current_user) {
+    FILE *fp = fopen(strcat(phone, ".dat"), "rb");
     if (fp != NULL) {
-        fread(&current_user, sizeof(struct user), 1, fp);
+        fread(current_user, sizeof(struct user), 1, fp);
         fclose(fp);
     } else {
-        memset(&current_user, 0, sizeof(struct user));
+        memset(current_user, 0, sizeof(struct user));
         printf("\nAccount not found.\n");
         getch();
     }
-
-    return current_user;
 }
 
 // Save deletion request
@@ -351,52 +372,11 @@ void save_deletion_request(struct deletion_request request) {
     if (fp != NULL) {
         fwrite(&request, sizeof(struct deletion_request), 1, fp);
         fclose(fp);
-        printf("\nDeletion request submitted successfully.\n");
-    } else {
-        printf("\nError submitting deletion request.\n");
     }
-    getch();
-}
-
-// Approve deletion requests
-void approve_deletion_requests() {
-    FILE *fp = fopen("pending_requests.dat", "rb");
-    FILE *temp_fp = fopen("temp_requests.dat", "wb");
-    struct deletion_request request;
-
-    if (fp == NULL) {
-        printf("\nNo pending deletion requests.\n");
-        getch();
-        return;
-    }
-
-    while (fread(&request, sizeof(struct deletion_request), 1, fp)) {
-        printf("Approve deletion for account: %s (y/n)? ", request.account_number);
-        char choice;
-        scanf(" %c", &choice);
-
-        if (choice == 'y' || choice == 'Y') {
-            char filename[60];
-            strcpy(filename, request.phone);
-            strcat(filename, ".dat");
-            if (remove(filename) == 0) {
-                printf("\nAccount deleted successfully.\n");
-            } else {
-                printf("\nFailed to delete account file.\n");
-            }
-        } else {
-            fwrite(&request, sizeof(struct deletion_request), 1, temp_fp);
-        }
-    }
-
-    fclose(fp);
-    fclose(temp_fp);
-    remove("pending_requests.dat");
-    rename("temp_requests.dat", "pending_requests.dat");
 }
 
 // Exit program
 void exit_program() {
-    printf("\nThank you for using the Digital Money Management System!\n");
-    exit(0);
+    printf("\nThank you for using Digital Money Management System. Goodbye!\n");
+    getch();
 }
