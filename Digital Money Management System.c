@@ -36,6 +36,7 @@ void register_user();
 void login_user();
 void admin_login();
 void view_all_users();
+void search_account();
 void approve_deletion_requests();
 struct user deposit_money(struct user current_user);
 struct user withdraw_money(struct user current_user);
@@ -139,8 +140,9 @@ void admin_menu()
         printf("\n*** Admin Dashboard ***\n");
         divider();
         printf("1. View All Users\n");
-        printf("2. Approve Account Deletion Requests\n");
-        printf("3. Logout\n");
+        printf("2. search account\n");
+        printf("3. Approve Account Deletion Requests\n");
+        printf("4. Logout\n");
         divider();
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -151,9 +153,12 @@ void admin_menu()
             view_all_users();
             break;
         case 2:
-            approve_deletion_requests();
+            search_account();
             break;
         case 3:
+            approve_deletion_requests();
+            break;
+        case 4:
             return;
         default:
             printf("\nInvalid choice. Try again.\n");
@@ -183,6 +188,48 @@ void view_all_users()
         printf("Name: %s | Phone: %s | Balance: %d\n", user_data.name, user_data.phone, user_data.balance);
     }
     fclose(fp);
+    getch();
+}
+
+// Search account function for the admin panel
+void search_account()
+{
+    struct user user_data;
+    char phone[50], filename[50];
+    FILE *fp;
+
+    system("cls");
+    printf("\n\t\t\t*** Account Search ***\n");
+    divider();
+
+    printf("Enter the phone number to search: ");
+    scanf("%s", phone);
+
+    // Construct the filename
+    strcpy(filename, phone);
+    strcat(filename, ".dat");
+
+    // Open the user file
+    fp = fopen(filename, "rb");
+    if (fp == NULL)
+    {
+        printf("\nNo account found with the phone number: %s\n", phone);
+        getch();
+        return;
+    }
+
+    // Read and display user data
+    fread(&user_data, sizeof(struct user), 1, fp);
+    fclose(fp);
+
+    printf("\n*** Account Found ***\n");
+    divider();
+    printf("Name           : %s\n", user_data.name);
+    printf("Account Number : %s\n", user_data.account_number);
+    printf("Phone Number   : %s\n", user_data.phone);
+    printf("Balance        : %d\n", user_data.balance);
+    divider();
+
     getch();
 }
 
