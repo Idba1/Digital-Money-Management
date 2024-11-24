@@ -370,7 +370,6 @@ struct user deposit_money(struct user current_user)
     return current_user;
 }
 
-
 // Withdraw money
 struct user withdraw_money(struct user current_user)
 {
@@ -394,7 +393,6 @@ struct user withdraw_money(struct user current_user)
     getch();
     return current_user;
 }
-
 
 // View account details
 void account_details(struct user current_user)
@@ -426,8 +424,14 @@ struct user update_account_details(struct user current_user)
     printf("\nEnter new name: ");
     scanf("%s", current_user.name);
 
-    printf("\nAccount details updated successfully.\n");
+    printf("\nEnter new password: ");
+    scanf("%s", current_user.password);
+
+    // Save the updated details back into the user's file
     save_user_data(current_user);
+
+    // Update user data in users.dat (overwrite if phone number changed)
+    printf("\nAccount details updated successfully.\n");
     getch();
     return current_user;
 }
@@ -472,6 +476,19 @@ void save_user_data(struct user current_user)
             }
         }
         fclose(users_fp);
+    }
+
+    // If phone number changed, rename the file and update users.dat
+    if (found && strcmp(temp_user.phone, current_user.phone) != 0)
+    {
+        // If phone number is updated, remove old file and rename the new one
+        char old_filename[50];
+        strcpy(old_filename, temp_user.phone);
+        strcat(old_filename, ".dat");
+
+        // Remove the old file and rename the new file
+        remove(old_filename);
+        rename(filename, old_filename);
     }
 
     if (!found && temp_fp != NULL)
@@ -551,7 +568,7 @@ int is_within_report_range(char transaction_date[], char report_type[])
     struct tm transaction_tm = {0};
     sscanf(transaction_date, "%d-%d-%d", &transaction_tm.tm_year, &transaction_tm.tm_mon, &transaction_tm.tm_mday);
     transaction_tm.tm_year -= 1900; // tm_year is years since 1900
-    transaction_tm.tm_mon -= 1;    // tm_mon is 0-based
+    transaction_tm.tm_mon -= 1;     // tm_mon is 0-based
 
     time_t transaction_time = mktime(&transaction_tm);
     if (transaction_time == -1)
@@ -582,7 +599,6 @@ int is_within_report_range(char transaction_date[], char report_type[])
 
     return 0;
 }
-
 
 // View transaction report based on the type
 void view_transaction_report(struct user current_user, char report_type[])
