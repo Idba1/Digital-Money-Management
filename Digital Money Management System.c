@@ -47,6 +47,7 @@ void record_transaction(struct user current_user, char type[], int amount);
 void save_user_data(struct user current_user);
 struct user load_user_data(char phone[]);
 void save_deletion_request(struct deletion_request request);
+void view_all_transactions(struct user current_user);
 void exit_program();
 void divider();
 
@@ -292,11 +293,8 @@ void login_user()
             printf("3. View Account Details\n");
             printf("4. Request Account Deletion\n");
             printf("5. Update Account Details\n");
-            printf("6. View Weekly Report\n");
-            printf("7. View Monthly Report\n");
-            printf("8. View Yearly Report\n");
-            printf("9. Logout\n");
-            printf("10. View Daily Report\n");
+            printf("6. View All Transactions\n");
+            printf("7. Logout\n");
             divider();
             printf("Enter your choice: ");
             scanf("%d", &choice);
@@ -319,20 +317,11 @@ void login_user()
                 current_user = update_account_details(current_user);
                 break;
             case 6:
-                view_transaction_report(current_user, "Weekly");
+                view_all_transactions(current_user);
                 break;
             case 7:
-                view_transaction_report(current_user, "Monthly");
-                break;
-            case 8:
-                view_transaction_report(current_user, "Yearly");
-                break;
-            case 9:
                 save_user_data(current_user);
                 return;
-            case 10:
-                view_transaction_report(current_user, "Daily");
-                break;
             default:
                 printf("\nInvalid choice. Try again.\n");
                 getch();
@@ -601,7 +590,7 @@ int is_within_report_range(char transaction_date[], char report_type[])
 }
 
 // View transaction report based on the type
-void view_transaction_report(struct user current_user, char report_type[])
+void view_all_transactions(struct user current_user)
 {
     char filename[50];
     strcpy(filename, current_user.phone);
@@ -610,32 +599,21 @@ void view_transaction_report(struct user current_user, char report_type[])
     FILE *fp = fopen(filename, "rb");
     if (fp == NULL)
     {
-        printf("\nNo transaction history found for %s.\n", report_type);
+        printf("\nNo transaction history found.\n");
         getch();
         return;
     }
 
     struct transaction record;
-    int found = 0;
-    printf("\n*** %s Report for %s ***\n", report_type, current_user.name);
+    printf("\n*** All Transactions for %s ***\n", current_user.name);
     divider();
 
     while (fread(&record, sizeof(struct transaction), 1, fp))
     {
-        if (is_within_report_range(record.date, report_type))
-        {
-            printf("Date: %s | Type: %s | Amount: %d\n", record.date, record.type, record.amount);
-            found = 1;
-        }
+        printf("Date: %s | Type: %s | Amount: %d\n", record.date, record.type, record.amount);
     }
 
     fclose(fp);
-
-    if (!found)
-    {
-        printf("No transactions found for the selected %s period.\n", report_type);
-    }
-
     getch();
 }
 
