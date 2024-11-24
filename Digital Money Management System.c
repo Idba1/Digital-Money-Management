@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <time.h>
 
 // User structure definition
 struct user
@@ -11,6 +12,14 @@ struct user
     char phone[50];
     char password[50];
     int balance;
+};
+
+// Transaction structure
+struct transaction
+{
+    char type[10];
+    int amount;
+    char date[20];
 };
 
 // Pending deletion request structure
@@ -33,9 +42,12 @@ struct user withdraw_money(struct user current_user);
 void account_details(struct user current_user);
 void request_account_deletion(struct user current_user);
 struct user update_account_details(struct user current_user);
+void view_transaction_report(struct user current_user, char report_type[]);
+void record_transaction(struct user current_user, char type[], int amount);
 void save_user_data(struct user current_user);
 struct user load_user_data(char phone[]);
 void save_deletion_request(struct deletion_request request);
+void view_all_transactions(struct user current_user);
 void exit_program();
 void divider();
 
@@ -243,7 +255,7 @@ void register_user()
     printf("Enter a password: ");
     scanf("%s", new_user.password);
 
-    strcpy(new_user.account_number, new_user.phone); // Phone number as account number
+    strcpy(new_user.account_number, new_user.phone);
     new_user.balance = 0;
 
     save_user_data(new_user);
@@ -281,7 +293,8 @@ void login_user()
             printf("3. View Account Details\n");
             printf("4. Request Account Deletion\n");
             printf("5. Update Account Details\n");
-            printf("6. Logout\n");
+            printf("6. View All Transactions\n");
+            printf("7. Logout\n");
             divider();
             printf("Enter your choice: ");
             scanf("%d", &choice);
@@ -304,7 +317,10 @@ void login_user()
                 current_user = update_account_details(current_user);
                 break;
             case 6:
-                save_user_data(current_user); 
+                view_all_transactions(current_user);
+                break;
+            case 7:
+                save_user_data(current_user);
                 return;
             default:
                 printf("\nInvalid choice. Try again.\n");
@@ -331,6 +347,9 @@ struct user deposit_money(struct user current_user)
         current_user.balance += amount;
         printf("\nDeposit successful. New balance: %d\n", current_user.balance);
         save_user_data(current_user);
+
+        // Record the transaction
+        record_transaction(current_user, "Deposit", amount);
     }
     else
     {
@@ -356,6 +375,9 @@ struct user withdraw_money(struct user current_user)
         current_user.balance -= amount;
         printf("\nWithdrawal successful. Remaining balance: %d\n", current_user.balance);
         save_user_data(current_user);
+
+        // Record the transaction
+        record_transaction(current_user, "Withdraw", amount);
     }
     getch();
     return current_user;
@@ -391,8 +413,14 @@ struct user update_account_details(struct user current_user)
     printf("\nEnter new name: ");
     scanf("%s", current_user.name);
 
-    printf("\nAccount details updated successfully.\n");
+    printf("\nEnter new password: ");
+    scanf("%s", current_user.password);
+
+    // Save the updated details back into the user's file
     save_user_data(current_user);
+
+    // Update user data in users.dat (overwrite if phone number changed)
+    printf("\nAccount details updated successfully.\n");
     getch();
     return current_user;
 }
@@ -439,6 +467,19 @@ void save_user_data(struct user current_user)
         fclose(users_fp);
     }
 
+    // If phone number changed, rename the file and update users.dat
+    if (found && strcmp(temp_user.phone, current_user.phone) != 0)
+    {
+        // If phone number is updated, remove old file and rename the new one
+        char old_filename[50];
+        strcpy(old_filename, temp_user.phone);
+        strcat(old_filename, ".dat");
+
+        // Remove the old file and rename the new file
+        remove(old_filename);
+        rename(filename, old_filename);
+    }
+
     if (!found && temp_fp != NULL)
     {
         fwrite(&current_user, sizeof(struct user), 1, temp_fp);
@@ -480,6 +521,100 @@ void save_deletion_request(struct deletion_request request)
         fwrite(&request, sizeof(struct deletion_request), 1, fp);
         fclose(fp);
     }
+}
+
+// Record a transaction in the file
+void record_transaction(struct user current_user, char type[], int amount)
+{
+    char filename[50];
+    strcpy(filename, current_user.phone);
+    strcat(filename, "_transactions.dat");
+
+    FILE *fp = fopen(filename, "ab");
+    if (fp != NULL)
+    {
+        struct transaction new_transaction;
+        strcpy(new_transaction.type, type);
+        new_transaction.amount = amount;
+
+        // Get current date
+        time_t t = time(NULL);
+        struct tm *tm = localtime(&t);
+        strftime(new_transaction.date, sizeof(new_transaction.date), "%Y-%m-%d", tm);
+
+        fwrite(&new_transaction, sizeof(struct transaction), 1, fp);
+        fclose(fp);
+    }
+}
+
+// Check if a transaction date is within the report range
+int is_within_report_range(char transaction_date[], char report_type[])
+{
+    time_t t = time(NULL);
+    struct tm *current_tm = localtime(&t);
+
+    // Parse transaction date
+    struct tm transaction_tm = {0};
+    sscanf(transaction_date, "%d-%d-%d", &transaction_tm.tm_year, &transaction_tm.tm_mon, &transaction_tm.tm_mday);
+    transaction_tm.tm_year -= 1900; // tm_year is years since 1900
+    transaction_tm.tm_mon -= 1;     // tm_mon is 0-based
+
+    time_t transaction_time = mktime(&transaction_tm);
+    if (transaction_time == -1)
+    {
+        // Invalid transaction date
+        return 0;
+    }
+
+    // Calculate time difference in days
+    double days_difference = difftime(t, transaction_time) / (60 * 60 * 24);
+
+    if (strcmp(report_type, "Daily") == 0 && days_difference <= 1 && current_tm->tm_mday == transaction_tm.tm_mday)
+    {
+        return 1;
+    }
+    else if (strcmp(report_type, "Weekly") == 0 && days_difference <= 7)
+    {
+        return 1;
+    }
+    else if (strcmp(report_type, "Monthly") == 0 && days_difference <= 30)
+    {
+        return 1;
+    }
+    else if (strcmp(report_type, "Yearly") == 0 && days_difference <= 365)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+// View transaction report based on the type
+void view_all_transactions(struct user current_user)
+{
+    char filename[50];
+    strcpy(filename, current_user.phone);
+    strcat(filename, "_transactions.dat");
+
+    FILE *fp = fopen(filename, "rb");
+    if (fp == NULL)
+    {
+        printf("\nNo transaction history found.\n");
+        getch();
+        return;
+    }
+
+    struct transaction record;
+    printf("\n*** All Transactions for %s ***\n", current_user.name);
+    divider();
+
+    while (fread(&record, sizeof(struct transaction), 1, fp))
+    {
+        printf("Date: %s | Type: %s | Amount: %d\n", record.date, record.type, record.amount);
+    }
+
+    fclose(fp);
+    getch();
 }
 
 // Exit program
