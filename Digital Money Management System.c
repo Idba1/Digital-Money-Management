@@ -35,8 +35,9 @@ void admin_menu();
 void register_user();
 void login_user();
 void admin_login();
-void view_all_users();
+// void view_all_users();
 void search_account();
+void account_report();
 void approve_deletion_requests();
 struct user deposit_money(struct user current_user);
 struct user withdraw_money(struct user current_user);
@@ -139,7 +140,8 @@ void admin_menu()
         system("cls");
         printf("\n*** Admin Dashboard ***\n");
         divider();
-        printf("1. View All Users\n");
+        // printf("1. View All Users\n");
+        printf("1. Generate All Account Details\n");
         printf("2. search account\n");
         printf("3. Approve Account Deletion Requests\n");
         printf("4. Logout\n");
@@ -149,8 +151,12 @@ void admin_menu()
 
         switch (choice)
         {
+            // case 1:
+            //     view_all_users();
+            //     break;
+
         case 1:
-            view_all_users();
+            account_report();
             break;
         case 2:
             search_account();
@@ -168,26 +174,65 @@ void admin_menu()
 }
 
 // View all users
-void view_all_users()
+// void view_all_users()
+// {
+//     FILE *fp;
+//     struct user user_data;
+
+//     fp = fopen("users.dat", "rb");
+//     if (fp == NULL)
+//     {
+//         printf("\nNo users found.\n");
+//         getch();
+//         return;
+//     }
+
+//     printf("\n*** All Registered Users ***\n");
+//     divider();
+//     while (fread(&user_data, sizeof(struct user), 1, fp))
+//     {
+//         printf("Name: %s | Phone: %s | Balance: %d\n", user_data.name, user_data.phone, user_data.balance);
+//     }
+//     fclose(fp);
+//     getch();
+// }
+
+// Generate All Account Details
+void account_report()
 {
     FILE *fp;
     struct user user_data;
 
+    system("cls");
+    printf("\n*** Generate Account Report ***\n");
+    divider();
+
     fp = fopen("users.dat", "rb");
     if (fp == NULL)
     {
-        printf("\nNo users found.\n");
+        printf("\nNo user data available.\n");
         getch();
         return;
     }
 
-    printf("\n*** All Registered Users ***\n");
+    // Print header for report
+    printf("%-20s%-15s%-20s%-10s\n", "Name", "Phone", "Account Number", "Balance");
     divider();
+
     while (fread(&user_data, sizeof(struct user), 1, fp))
     {
-        printf("Name: %s | Phone: %s | Balance: %d\n", user_data.name, user_data.phone, user_data.balance);
+        // Print user data with fixed column width for proper alignment
+        printf("%-20s%-15s%-20s%-10d\n",
+               user_data.name,
+               user_data.phone,
+               user_data.account_number,
+               user_data.balance);
     }
     fclose(fp);
+
+    divider();
+    printf("\nAccount report generated successfully.\n");
+    divider();
     getch();
 }
 
