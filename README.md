@@ -103,6 +103,7 @@ gcc -o digital_money_manager main.c
 ---
 
 ## **How to Use**
+![Technical Details](https://i.ibb.co.com/TkWCHFs/napkin-selection-5.png)
 
 1. **Installation**:  
    - Clone the repository or download the source files.  
