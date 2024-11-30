@@ -89,6 +89,8 @@ The **Digital Money Management System (DMMS)** is a secure and efficient platfor
 ---
 
 ### **File Handling**  
+![Technical Details](https://i.ibb.co.com/HtcF9qZ/napkin-selection-4.png)
+
 - User data is stored and retrieved via files for data persistence.  
 
 ### **Compilation**  
