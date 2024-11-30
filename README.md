@@ -1,10 +1,7 @@
----
-
 ## **Digital Money Management System (DMMS)**
 
 ![Digital money managemant system](https://i.ibb.co.com/gjGfmPH/napkin-selection.png)
 
----
 
 ## **Description**  
 The **Digital Money Management System (DMMS)** is a secure and efficient platform designed to streamline personal financial management. Built with the lightweight **C programming language**, it offers:  
