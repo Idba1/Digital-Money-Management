@@ -15,6 +15,9 @@ The **Digital Money Management System (DMMS)** is a secure and efficient platfor
 
 ## **Features**
 
+![Feature](https://i.ibb.co.com/Mk93jcw/napkin-selection-2.png)
+
+
 ### **User Features**  
 - **Financial Tracking**:  
   - Monthly and yearly reports.  
