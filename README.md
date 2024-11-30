@@ -143,6 +143,7 @@ gcc -o digital_money_manager main.c
 ---
 
 ## **Contributors**  
+![Technical Details](https://i.ibb.co.com/8XB9WPN/napkin-selection-6.png)
 - **Monira Islam**  
 - **Md Jakaria Nur**  
 - **Sami Ansari**  
@@ -154,9 +155,3 @@ For support or inquiries:
 - **Email**: [moniraislamself@gmail.com](mailto:moniraislamself@gmail.com)  
 - **Phone**: +8801618360986  
 
----
-
-### **License**  
-This project is licensed under the MIT License.
-
----
