@@ -56,6 +56,8 @@ The **Digital Money Management System (DMMS)** is a secure and efficient platfor
 
 ## **Technical Details**
 
+![Technical Details](https://i.ibb.co.com/tp6SM79/napkin-selection-3.png)
+
 ### **Programming Language**  
 - C Programming Language  
 
