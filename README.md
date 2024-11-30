@@ -1,6 +1,6 @@
 ---
 
-# **Digital Money Management System (DMMS)**
+## **Digital Money Management System (DMMS)**
 
 
 ---
