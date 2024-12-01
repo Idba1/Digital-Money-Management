@@ -5,12 +5,11 @@
 */
 
 // header file
-    #include <stdio.h>
-    #include <string.h>
-    #include <stdlib.h>
-    #include <conio.h>
-    #include <time.h>
-
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
 
 // user structure variable
 struct user
@@ -29,7 +28,7 @@ struct deletion_request
     char phone[50];
 };
 
-//support ticket variable
+// support ticket variable
 struct support_request
 {
     char name[50];
@@ -70,7 +69,6 @@ struct accountReport
     int another_january, another_february, another_march, another_april, another_may, another_june,
         another_july, another_august, another_september, another_october, another_november, another_december;
 
-
     int deposit_2024, deposit_2025, deposit_2026, deposit_2027, deposit_2028, deposit_2029, deposit_2030;
 
     int withdraw_2024, withdraw_2025, withdraw_2026, withdraw_2027, withdraw_2028, withdraw_2029, withdraw_2030;
@@ -88,41 +86,38 @@ struct accountReport
 
 // total user define function prototype
 
-    void main_menu();       // home page
+void main_menu(); // home page
 
-    void login_user();      // main menu 1
-    void register_user();   // main menu 2
-    void admin_login();     // main menu 3
-    void user_support();    // main menu 4
+void login_user();    // main menu 1
+void register_user(); // main menu 2
+void admin_login();   // main menu 3
+void user_support();  // main menu 4
 
-    struct user deposit_money(struct user current_user);            // user menu 1
-    struct user withdraw_money(struct user current_user);           // user menu 2
-    void account_report(struct user current_user);                  // user menu 3
-    void view_all_transactions(struct user current_user);           // user menu 4
-    void account_details(struct user current_user);                 // user menu 5
-    void submit_support_request(struct user current_user);          // user menu 6
-    struct user update_account_details(struct user current_user);   // user menu 7
-    void request_account_deletion(struct user current_user);        // user menu 8
+struct user deposit_money(struct user current_user);          // user menu 1
+struct user withdraw_money(struct user current_user);         // user menu 2
+void account_report(struct user current_user);                // user menu 3
+void view_all_transactions(struct user current_user);         // user menu 4
+void account_details(struct user current_user);               // user menu 5
+void submit_support_request(struct user current_user);        // user menu 6
+struct user update_account_details(struct user current_user); // user menu 7
+void request_account_deletion(struct user current_user);      // user menu 8
 
+void admin_menu(); // admin dashboard
 
-    void admin_menu();                  // admin dashboard
+void view_support_requests();     // admin menu 1
+void approve_deletion_requests(); // admin menu 2
+void search_account();            // admin menu 3
+void view_all_users();            // admin menu 4
 
-    void view_support_requests();       // admin menu 1
-    void approve_deletion_requests();   // admin menu 2
-    void search_account();              // admin menu 3
-    void view_all_users();              // admin menu 4
+struct user load_user_data(char phone[]);                                     // another menu 1
+void save_user_data(struct user current_user);                                // another menu 2
+void save_deletion_request(struct deletion_request request);                  // another menu 3
+void save_report_data(struct user current_user, struct accountReport report); // another menu 4
+struct accountReport get_report_data();                                       // another menu 5
+void record_transaction(struct user current_user, char type[], int amount);   // another menu 6
 
-    struct user load_user_data(char phone[]);                                       // another menu 1
-    void save_user_data(struct user current_user);                                  // another menu 2
-    void save_deletion_request(struct deletion_request request);                    // another menu 3
-    void save_report_data(struct user current_user, struct accountReport report);   // another menu 4
-    struct accountReport get_report_data();                                         // another menu 5
-    void record_transaction(struct user current_user, char type[], int amount);     // another menu 6
-
-
-    void divider();         // divider menu
-    void exit_program();    // exit menu
-
+void divider();      // divider menu
+void exit_program(); // exit menu
 
 // main function
 int main()
@@ -131,7 +126,6 @@ int main()
     main_menu();
     return 0;
 }
-
 
 // main menu
 void main_menu()
@@ -181,26 +175,25 @@ void main_menu()
     }
 }
 
-
 // Login user | main menu 1
 void login_user()
 {
     struct user current_user;
     char phone[50], password[50];
 
-        system("cls");
+    system("cls");
 
-            printf("\n\n\n\t\t\t\t\t\t *** Login to Account ***\n");
+    printf("\n\n\n\t\t\t\t\t\t *** Login to Account ***\n");
 
-            divider();
+    divider();
 
-            printf("\n\t\t\t\t\t\t Enter phone number:   ");
-            scanf("%s", phone);
+    printf("\n\t\t\t\t\t\t Enter phone number:   ");
+    scanf("%s", phone);
 
-            printf("\n\t\t\t\t\t\t Enter your password:  ");
-            scanf("%s", password);
+    printf("\n\t\t\t\t\t\t Enter your password:  ");
+    scanf("%s", password);
 
-            current_user = load_user_data(phone);
+    current_user = load_user_data(phone);
 
     if (strcmp(password, current_user.password) == 0)
     {
@@ -265,94 +258,93 @@ void login_user()
     }
     else
     {
-            printf("\n\n\t\t\t\t\t\t Invalid password. Try again.\n");
+        printf("\n\n\t\t\t\t\t\t Invalid password. Try again.\n");
 
-            getch();
+        getch();
     }
 }
 
 // Register a new user | main menu 2
 void register_user()
 {
-        struct user new_user;
+    struct user new_user;
 
-        system("cls");
+    system("cls");
 
-        printf("\n\n\n\t\t\t\t\t\t *** Register New Account ***\n");
+    printf("\n\n\n\t\t\t\t\t\t *** Register New Account ***\n");
 
-        divider();
+    divider();
 
-        printf("\n\t\t\t\t\t\t Enter your name:     ");
-        scanf("%s", new_user.name);
+    printf("\n\t\t\t\t\t\t Enter your name:     ");
+    scanf("%s", new_user.name);
 
-        printf("\n\t\t\t\t\t\t Enter phone number:  ");
-        scanf("%s", new_user.phone);
+    printf("\n\t\t\t\t\t\t Enter phone number:  ");
+    scanf("%s", new_user.phone);
 
-        printf("\n\t\t\t\t\t\t Enter new password:  ");
-        scanf("%s", new_user.password);
+    printf("\n\t\t\t\t\t\t Enter new password:  ");
+    scanf("%s", new_user.password);
 
-        strcpy(new_user.account_number, new_user.phone); // Phone number as account number
-        new_user.balance = 0;
+    strcpy(new_user.account_number, new_user.phone); // Phone number as account number
+    new_user.balance = 0;
 
-        save_user_data(new_user);
+    save_user_data(new_user);
 
-        printf("\n\t\t\t\t\t\t Account successfully registered!\n");
+    printf("\n\t\t\t\t\t\t Account successfully registered!\n");
 
-        getch();
+    getch();
 }
 
 // Admin login | main menu 3
 void admin_login()
 {
-        char username[50], password[50];
+    char username[50], password[50];
 
-        system("cls");
+    system("cls");
 
-        printf("\n\n\n\t\t\t\t\t\t *** Admin Login ***\n");
+    printf("\n\n\n\t\t\t\t\t\t *** Admin Login ***\n");
 
-        divider();
+    divider();
 
-        printf("\n\t\t\t\t\t\t Enter admin username: ");
-        scanf("%s", username);
+    printf("\n\t\t\t\t\t\t Enter admin username: ");
+    scanf("%s", username);
 
-        printf("\n\t\t\t\t\t\t Enter admin password: ");
-        scanf("%s", password);
+    printf("\n\t\t\t\t\t\t Enter admin password: ");
+    scanf("%s", password);
 
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0)
-        {
+    {
         admin_menu();
-        }
+    }
     else
-        {
+    {
         printf("\n\t\t\t\t\t\t Invalid Information\n");
 
         getch();
-        }
+    }
 }
 
-//user support | main menu 4
+// user support | main menu 4
 void user_support()
 {
-            system("cls");
+    system("cls");
 
-            printf("\n\n\n\t\t\t\t\t\t *** Welcome to User Support ***\n");
+    printf("\n\n\n\t\t\t\t\t\t *** Welcome to User Support ***\n");
 
-            divider();
+    divider();
 
-            printf("\n\t\t\t\t\t\t Admin-1:\n");
-            printf("\n\t\t\t\t\t\t Name  : Md Jakaria Nur \n\t\t\t\t\t\t Phone : 01837-000721\n");
+    printf("\n\t\t\t\t\t\t Admin-1:\n");
+    printf("\n\t\t\t\t\t\t Name  : Md Jakaria Nur \n\t\t\t\t\t\t Phone : 01837-000721\n");
 
-            printf("\n\t\t\t\t\t\t Admin-2:\n");
-            printf("\n\t\t\t\t\t\t Name  : Sami Ansari \n\t\t\t\t\t\t Phone : 01883-236707\n");
+    printf("\n\t\t\t\t\t\t Admin-2:\n");
+    printf("\n\t\t\t\t\t\t Name  : Sami Ansari \n\t\t\t\t\t\t Phone : 01883-236707\n");
 
-            printf("\n\t\t\t\t\t\t Admin-3:\n");
-            printf("\n\t\t\t\t\t\t Name  : Monira Islam \n\t\t\t\t\t\t Phone : 01618-360986\n");
+    printf("\n\t\t\t\t\t\t Admin-3:\n");
+    printf("\n\t\t\t\t\t\t Name  : Monira Islam \n\t\t\t\t\t\t Phone : 01618-360986\n");
 
-            divider();
+    divider();
 
-            getch();
+    getch();
 }
-
 
 // Deposit money | user menu 1
 struct user deposit_money(struct user current_user)
@@ -360,72 +352,107 @@ struct user deposit_money(struct user current_user)
     int amount;
     struct accountReport report = get_report_data(current_user);
 
-        char date_str[20];
+    char date_str[20];
 
-        time_t t = time(NULL);
-        struct tm *tm_info = localtime(&t);
-        strftime(date_str, sizeof(date_str), "%Y-%m-%d", tm_info);
-        int day, month, year;
-        sscanf(date_str, "%d-%d-%d", &year, &month, &day);
+    time_t t = time(NULL);
+    struct tm *tm_info = localtime(&t);
+    strftime(date_str, sizeof(date_str), "%Y-%m-%d", tm_info);
+    int day, month, year;
+    sscanf(date_str, "%d-%d-%d", &year, &month, &day);
 
-        printf("\n\t\t\t\t\t\t Enter amount to deposit: ");
-        scanf("%d", &amount);
+    printf("\n\t\t\t\t\t\t Enter amount to deposit: ");
+    scanf("%d", &amount);
 
     if (amount > 0)
-        {
+    {
         current_user.balance += amount;
 
         printf("\n\t\t\t\t\t\t Deposit successful. \n\n\t\t\t\t\t\t New balance: %d\n", current_user.balance);
 
         save_user_data(current_user);
         record_transaction(current_user, "Deposit", amount);
-
-        }
+    }
     else
-        {
+    {
         printf("\n\t\t\t\t\t\t Invalid amount.\n");
-        }
+    }
 
-    if (year == 2024) {
+    if (year == 2024)
+    {
 
-            report.deposit_2024 += amount;
+        report.deposit_2024 += amount;
 
-        if (month == 1) {
+        if (month == 1)
+        {
             report.deposit_january += amount;
-        } else if (month == 2) {
+        }
+        else if (month == 2)
+        {
             report.deposit_february += amount;
-        } else if (month == 3) {
+        }
+        else if (month == 3)
+        {
             report.deposit_march += amount;
-        }else if (month == 4) {
+        }
+        else if (month == 4)
+        {
             report.deposit_april += amount;
-        }else if (month == 5) {
+        }
+        else if (month == 5)
+        {
             report.deposit_may += amount;
-        }else if (month == 6) {
+        }
+        else if (month == 6)
+        {
             report.deposit_june += amount;
-        }else if (month == 7) {
+        }
+        else if (month == 7)
+        {
             report.deposit_july += amount;
-        }else if (month == 8) {
+        }
+        else if (month == 8)
+        {
             report.deposit_august += amount;
-        }else if (month == 9) {
+        }
+        else if (month == 9)
+        {
             report.deposit_september += amount;
-        }else if (month == 10) {
+        }
+        else if (month == 10)
+        {
             report.deposit_october += amount;
-        }else if (month == 11) {
+        }
+        else if (month == 11)
+        {
             report.deposit_november += amount;
-        }else if (month == 12) {
+        }
+        else if (month == 12)
+        {
             report.deposit_december += amount;
         }
-    } else if (year == 2025) {
+    }
+    else if (year == 2025)
+    {
         report.deposit_2025 += amount;
-    } else if (year == 2026) {
+    }
+    else if (year == 2026)
+    {
         report.deposit_2026 += amount;
-    } else if (year == 2027) {
+    }
+    else if (year == 2027)
+    {
         report.deposit_2027 += amount;
-    } else if (year == 2028) {
+    }
+    else if (year == 2028)
+    {
         report.deposit_2028 += amount;
-    } else if (year == 2029) {
+    }
+    else if (year == 2029)
+    {
         report.deposit_2029 += amount;
-    } else if (year == 2030) {
+    }
+    else if (year == 2030)
+    {
         report.deposit_2030 += amount;
     }
 
@@ -443,17 +470,16 @@ struct user withdraw_money(struct user current_user)
     int category;
     struct accountReport report = get_report_data(current_user);
 
-
     char date_str[20];
 
-        time_t t = time(NULL);
-        struct tm *tm_info = localtime(&t);
-        strftime(date_str, sizeof(date_str), "%Y-%m-%d", tm_info);
-        int day, month, year;
-        sscanf(date_str, "%d-%d-%d", &year, &month, &day);
+    time_t t = time(NULL);
+    struct tm *tm_info = localtime(&t);
+    strftime(date_str, sizeof(date_str), "%Y-%m-%d", tm_info);
+    int day, month, year;
+    sscanf(date_str, "%d-%d-%d", &year, &month, &day);
 
-        printf("\n\t\t\t\t\t\t Enter amount to withdraw: ");
-        scanf("%d", &amount);
+    printf("\n\t\t\t\t\t\t Enter amount to withdraw: ");
+    scanf("%d", &amount);
 
     if (amount > current_user.balance)
     {
@@ -464,361 +490,542 @@ struct user withdraw_money(struct user current_user)
         current_user.balance -= amount;
         printf("\n\t\t\t\t\t\t Withdrawal successful. \n\n\t\t\t\t\t\t Remaining balance: %d\n", current_user.balance);
 
-    save_user_data(current_user);
+        save_user_data(current_user);
 
-    record_transaction(current_user, "Withdraw", amount);
+        record_transaction(current_user, "Withdraw", amount);
 
-    printf("\n\t\t\t\t\t\t *** Select the category to withdraw ***\n");
+        printf("\n\t\t\t\t\t\t *** Select the category to withdraw ***\n");
 
-    divider();
+        divider();
 
-    printf("\n\t\t\t\t\t\t 1. House\n");
-    printf("\n\t\t\t\t\t\t 2. Food\n");
-    printf("\n\t\t\t\t\t\t 3. Child\n");
-    printf("\n\t\t\t\t\t\t 4. Family\n");
-    printf("\n\t\t\t\t\t\t 5. Another\n");
+        printf("\n\t\t\t\t\t\t 1. House\n");
+        printf("\n\t\t\t\t\t\t 2. Food\n");
+        printf("\n\t\t\t\t\t\t 3. Child\n");
+        printf("\n\t\t\t\t\t\t 4. Family\n");
+        printf("\n\t\t\t\t\t\t 5. Another\n");
 
-    divider();
+        divider();
 
-    scanf("%d", &category);
-    printf("\n\t\t\t\t\t\t Enter your choice: ");
+        scanf("%d", &category);
+        printf("\n\t\t\t\t\t\t Enter your choice: ");
 
-      switch (category)
-    {
-    case 1: {
-
-        if (year == 2024) {
-
-            report.withdraw_2024 += amount;
-            report.house_2024 += amount;
-
-        if (month == 1) {
-            report.withdraw_january += amount;
-            report.house_january += amount;
-        } else if (month == 2) {
-            report.withdraw_february += amount;
-            report.house_february += amount;
-        } else if (month == 3) {
-            report.withdraw_march += amount;
-            report.house_march += amount;
-        }else if (month == 4) {
-            report.withdraw_april += amount;
-            report.house_april += amount;
-        }else if (month == 5) {
-            report.withdraw_may += amount;
-            report.house_may += amount;
-        }else if (month == 6) {
-            report.withdraw_june += amount;
-            report.house_june += amount;
-        }else if (month == 7) {
-            report.withdraw_july += amount;
-            report.house_july += amount;
-        }else if (month == 8) {
-            report.withdraw_august += amount;
-            report.house_august += amount;
-        }else if (month == 9) {
-            report.withdraw_september += amount;
-            report.house_september += amount;
-        }else if (month == 10) {
-            report.withdraw_october += amount;
-            report.house_october += amount;
-        }else if (month == 11) {
-            report.withdraw_november += amount;
-            report.house_november += amount;
-        }else if (month == 12) {
-            report.withdraw_december += amount;
-            report.house_december += amount;
-        }
-    } else if (year == 2025) {
-        report.withdraw_2025 += amount;
-        report.house_2025 += amount;
-    } else if (year == 2026) {
-        report.withdraw_2026 += amount;
-        report.house_2026 += amount;
-    } else if (year == 2027) {
-        report.withdraw_2027 += amount;
-        report.house_2027 += amount;
-    } else if (year == 2028) {
-        report.withdraw_2028 += amount;
-        report.house_2028 += amount;
-    } else if (year == 2029) {
-        report.withdraw_2029 += amount;
-        report.house_2029 += amount;
-    } else if (year == 2030) {
-        report.withdraw_2030 += amount;
-        report.house_2030 += amount;
-    }
-    }
-        break;
-
-    case 2: {
-        if (year == 2024) {
-
-            report.withdraw_2024 += amount;
-            report.food_2024 += amount;
-
-        if (month == 1) {
-            report.withdraw_january += amount;
-            report.food_january += amount;
-        } else if (month == 2) {
-            report.withdraw_february += amount;
-            report.food_february += amount;
-        } else if (month == 3) {
-            report.withdraw_march += amount;
-            report.food_march += amount;
-        }else if (month == 4) {
-            report.withdraw_april += amount;
-            report.food_april += amount;
-        }else if (month == 5) {
-            report.withdraw_may += amount;
-            report.food_may += amount;
-        }else if (month == 6) {
-            report.withdraw_june += amount;
-            report.food_june += amount;
-        }else if (month == 7) {
-            report.withdraw_july += amount;
-            report.food_july += amount;
-        }else if (month == 8) {
-            report.withdraw_august += amount;
-            report.food_august += amount;
-        }else if (month == 9) {
-            report.withdraw_september += amount;
-            report.food_september += amount;
-        }else if (month == 10) {
-            report.withdraw_october += amount;
-            report.food_october += amount;
-        }else if (month == 11) {
-            report.withdraw_november += amount;
-            report.food_november += amount;
-        }else if (month == 12) {
-            report.withdraw_december += amount;
-            report.food_december += amount;
-        }
-    } else if (year == 2025) {
-        report.withdraw_2025 += amount;
-        report.food_2025 += amount;
-    } else if (year == 2026) {
-        report.withdraw_2026 += amount;
-        report.food_2026 += amount;
-    } else if (year == 2027) {
-        report.withdraw_2027 += amount;
-        report.food_2027 += amount;
-    } else if (year == 2028) {
-        report.withdraw_2028 += amount;
-        report.food_2028 += amount;
-    } else if (year == 2029) {
-        report.withdraw_2029 += amount;
-        report.food_2029 += amount;
-    } else if (year == 2030) {
-        report.withdraw_2030 += amount;
-        report.food_2030 += amount;
-    }
-  }
-        break;
-
-    case 3:
+        switch (category)
         {
-        if (year == 2024) {
-
-            report.withdraw_2024 += amount;
-            report.child_2024 += amount;
-
-        if (month == 1) {
-            report.withdraw_january += amount;
-            report.child_january += amount;
-        } else if (month == 2) {
-            report.withdraw_february += amount;
-            report.child_february += amount;
-        } else if (month == 3) {
-            report.withdraw_march += amount;
-            report.child_march += amount;
-        }else if (month == 4) {
-            report.withdraw_april += amount;
-            report.child_april += amount;
-        }else if (month == 5) {
-            report.withdraw_may += amount;
-            report.child_may = amount;
-        }else if (month == 6) {
-            report.withdraw_june += amount;
-            report.child_june += amount;
-        }else if (month == 7) {
-            report.withdraw_july += amount;
-            report.child_july += amount;
-        }else if (month == 8) {
-            report.withdraw_august += amount;
-            report.child_august += amount;
-        }else if (month == 9) {
-            report.withdraw_september += amount;
-            report.child_september += amount;
-        }else if (month == 10) {
-            report.withdraw_october += amount;
-            report.child_october += amount;
-        }else if (month == 11) {
-            report.withdraw_november += amount;
-            report.child_november += amount;
-        }else if (month == 12) {
-            report.withdraw_december += amount;
-            report.child_december += amount;
-        }
-    } else if (year == 2025) {
-        report.withdraw_2025 += amount;
-        report.child_2025 += amount;
-    } else if (year == 2026) {
-        report.withdraw_2026 += amount;
-        report.child_2026 += amount;
-    } else if (year == 2027) {
-        report.withdraw_2027 += amount;
-        report.child_2027 += amount;
-    } else if (year == 2028) {
-        report.withdraw_2028 += amount;
-        report.child_2028 += amount;
-    } else if (year == 2029) {
-        report.withdraw_2029 += amount;
-        report.child_2029 += amount;
-    } else if (year == 2030) {
-        report.withdraw_2030 += amount;
-        report.child_2030 += amount;
-    }
-  }
-        break;
-    case 4:
+        case 1:
         {
-        if (year == 2024) {
 
-            report.withdraw_2024 += amount;
-            report.family_2024 += amount;
+            if (year == 2024)
+            {
 
-        if (month == 1) {
-            report.withdraw_january += amount;
-            report.family_january += amount;
-        } else if (month == 2) {
-            report.withdraw_february += amount;
-            report.family_february += amount;
-        } else if (month == 3) {
-            report.withdraw_march += amount;
-            report.family_march += amount;
-        }else if (month == 4) {
-            report.withdraw_april += amount;
-            report.family_april += amount;
-        }else if (month == 5) {
-            report.withdraw_may += amount;
-            report.family_may += amount;
-        }else if (month == 6) {
-            report.withdraw_june += amount;
-            report.family_june += amount;
-        }else if (month == 7) {
-            report.withdraw_july += amount;
-            report.family_july += amount;
-        }else if (month == 8) {
-            report.withdraw_august += amount;
-            report.family_august += amount;
-        }else if (month == 9) {
-            report.withdraw_september += amount;
-            report.family_september += amount;
-        }else if (month == 10) {
-            report.withdraw_october += amount;
-            report.family_october += amount;
-        }else if (month == 11) {
-            report.withdraw_november += amount;
-            report.family_november += amount;
-        }else if (month == 12) {
-            report.withdraw_december += amount;
-            report.family_december += amount;
+                report.withdraw_2024 += amount;
+                report.house_2024 += amount;
+
+                if (month == 1)
+                {
+                    report.withdraw_january += amount;
+                    report.house_january += amount;
+                }
+                else if (month == 2)
+                {
+                    report.withdraw_february += amount;
+                    report.house_february += amount;
+                }
+                else if (month == 3)
+                {
+                    report.withdraw_march += amount;
+                    report.house_march += amount;
+                }
+                else if (month == 4)
+                {
+                    report.withdraw_april += amount;
+                    report.house_april += amount;
+                }
+                else if (month == 5)
+                {
+                    report.withdraw_may += amount;
+                    report.house_may += amount;
+                }
+                else if (month == 6)
+                {
+                    report.withdraw_june += amount;
+                    report.house_june += amount;
+                }
+                else if (month == 7)
+                {
+                    report.withdraw_july += amount;
+                    report.house_july += amount;
+                }
+                else if (month == 8)
+                {
+                    report.withdraw_august += amount;
+                    report.house_august += amount;
+                }
+                else if (month == 9)
+                {
+                    report.withdraw_september += amount;
+                    report.house_september += amount;
+                }
+                else if (month == 10)
+                {
+                    report.withdraw_october += amount;
+                    report.house_october += amount;
+                }
+                else if (month == 11)
+                {
+                    report.withdraw_november += amount;
+                    report.house_november += amount;
+                }
+                else if (month == 12)
+                {
+                    report.withdraw_december += amount;
+                    report.house_december += amount;
+                }
+            }
+            else if (year == 2025)
+            {
+                report.withdraw_2025 += amount;
+                report.house_2025 += amount;
+            }
+            else if (year == 2026)
+            {
+                report.withdraw_2026 += amount;
+                report.house_2026 += amount;
+            }
+            else if (year == 2027)
+            {
+                report.withdraw_2027 += amount;
+                report.house_2027 += amount;
+            }
+            else if (year == 2028)
+            {
+                report.withdraw_2028 += amount;
+                report.house_2028 += amount;
+            }
+            else if (year == 2029)
+            {
+                report.withdraw_2029 += amount;
+                report.house_2029 += amount;
+            }
+            else if (year == 2030)
+            {
+                report.withdraw_2030 += amount;
+                report.house_2030 += amount;
+            }
         }
-    } else if (year == 2025) {
-        report.withdraw_2025 += amount;
-        report.family_2025 += amount;
-    } else if (year == 2026) {
-        report.withdraw_2026 += amount;
-        report.family_2026 += amount;
-    } else if (year == 2027) {
-        report.withdraw_2027 += amount;
-        report.family_2027 += amount;
-    } else if (year == 2028) {
-        report.withdraw_2028 += amount;
-        report.family_2028 += amount;
-    } else if (year == 2029) {
-        report.withdraw_2029 += amount;
-        report.family_2029 += amount;
-    } else if (year == 2030) {
-        report.withdraw_2030 += amount;
-        report.family_2030 += amount;
-    }
-  }
         break;
-    case 5:
+
+        case 2:
         {
-        if (year == 2024) {
+            if (year == 2024)
+            {
 
-            report.withdraw_2024 += amount;
-            report.another_2024 += amount;
+                report.withdraw_2024 += amount;
+                report.food_2024 += amount;
 
-        if (month == 1) {
-            report.withdraw_january += amount;
-            report.another_january += amount;
-        } else if (month == 2) {
-            report.withdraw_february += amount;
-            report.another_february += amount;
-        } else if (month == 3) {
-            report.withdraw_march += amount;
-            report.another_march += amount;
-        }else if (month == 4) {
-            report.withdraw_april += amount;
-            report.another_april += amount;
-        }else if (month == 5) {
-            report.withdraw_may += amount;
-            report.another_may += amount;
-        }else if (month == 6) {
-            report.withdraw_june += amount;
-            report.another_june += amount;
-        }else if (month == 7) {
-            report.withdraw_july += amount;
-            report.another_july += amount;
-        }else if (month == 8) {
-            report.withdraw_august += amount;
-            report.another_august += amount;
-        }else if (month == 9) {
-            report.withdraw_september += amount;
-            report.another_september += amount;
-        }else if (month == 10) {
-            report.withdraw_october += amount;
-            report.another_october += amount;
-        }else if (month == 11) {
-            report.withdraw_november += amount;
-            report.another_november += amount;
-        }else if (month == 12) {
-            report.withdraw_december += amount;
-            report.another_december += amount;
+                if (month == 1)
+                {
+                    report.withdraw_january += amount;
+                    report.food_january += amount;
+                }
+                else if (month == 2)
+                {
+                    report.withdraw_february += amount;
+                    report.food_february += amount;
+                }
+                else if (month == 3)
+                {
+                    report.withdraw_march += amount;
+                    report.food_march += amount;
+                }
+                else if (month == 4)
+                {
+                    report.withdraw_april += amount;
+                    report.food_april += amount;
+                }
+                else if (month == 5)
+                {
+                    report.withdraw_may += amount;
+                    report.food_may += amount;
+                }
+                else if (month == 6)
+                {
+                    report.withdraw_june += amount;
+                    report.food_june += amount;
+                }
+                else if (month == 7)
+                {
+                    report.withdraw_july += amount;
+                    report.food_july += amount;
+                }
+                else if (month == 8)
+                {
+                    report.withdraw_august += amount;
+                    report.food_august += amount;
+                }
+                else if (month == 9)
+                {
+                    report.withdraw_september += amount;
+                    report.food_september += amount;
+                }
+                else if (month == 10)
+                {
+                    report.withdraw_october += amount;
+                    report.food_october += amount;
+                }
+                else if (month == 11)
+                {
+                    report.withdraw_november += amount;
+                    report.food_november += amount;
+                }
+                else if (month == 12)
+                {
+                    report.withdraw_december += amount;
+                    report.food_december += amount;
+                }
+            }
+            else if (year == 2025)
+            {
+                report.withdraw_2025 += amount;
+                report.food_2025 += amount;
+            }
+            else if (year == 2026)
+            {
+                report.withdraw_2026 += amount;
+                report.food_2026 += amount;
+            }
+            else if (year == 2027)
+            {
+                report.withdraw_2027 += amount;
+                report.food_2027 += amount;
+            }
+            else if (year == 2028)
+            {
+                report.withdraw_2028 += amount;
+                report.food_2028 += amount;
+            }
+            else if (year == 2029)
+            {
+                report.withdraw_2029 += amount;
+                report.food_2029 += amount;
+            }
+            else if (year == 2030)
+            {
+                report.withdraw_2030 += amount;
+                report.food_2030 += amount;
+            }
         }
-    } else if (year == 2025) {
-        report.withdraw_2025 += amount;
-        report.another_2025 += amount;
-    } else if (year == 2026) {
-        report.withdraw_2026 += amount;
-        report.another_2026 += amount;
-    } else if (year == 2027) {
-        report.withdraw_2027 += amount;
-        report.another_2027 += amount;
-    } else if (year == 2028) {
-        report.withdraw_2028 += amount;
-        report.another_2028 += amount;
-    } else if (year == 2029) {
-        report.withdraw_2029 += amount;
-        report.another_2029 += amount;
-    } else if (year == 2030) {
-        report.withdraw_2030 += amount;
-        report.another_2030 += amount;
-    }
-  }
         break;
 
-    default:
-        printf("\n\t\t\t\t\t\t Invalid choice! Please try again.\n");
+        case 3:
+        {
+            if (year == 2024)
+            {
+
+                report.withdraw_2024 += amount;
+                report.child_2024 += amount;
+
+                if (month == 1)
+                {
+                    report.withdraw_january += amount;
+                    report.child_january += amount;
+                }
+                else if (month == 2)
+                {
+                    report.withdraw_february += amount;
+                    report.child_february += amount;
+                }
+                else if (month == 3)
+                {
+                    report.withdraw_march += amount;
+                    report.child_march += amount;
+                }
+                else if (month == 4)
+                {
+                    report.withdraw_april += amount;
+                    report.child_april += amount;
+                }
+                else if (month == 5)
+                {
+                    report.withdraw_may += amount;
+                    report.child_may = amount;
+                }
+                else if (month == 6)
+                {
+                    report.withdraw_june += amount;
+                    report.child_june += amount;
+                }
+                else if (month == 7)
+                {
+                    report.withdraw_july += amount;
+                    report.child_july += amount;
+                }
+                else if (month == 8)
+                {
+                    report.withdraw_august += amount;
+                    report.child_august += amount;
+                }
+                else if (month == 9)
+                {
+                    report.withdraw_september += amount;
+                    report.child_september += amount;
+                }
+                else if (month == 10)
+                {
+                    report.withdraw_october += amount;
+                    report.child_october += amount;
+                }
+                else if (month == 11)
+                {
+                    report.withdraw_november += amount;
+                    report.child_november += amount;
+                }
+                else if (month == 12)
+                {
+                    report.withdraw_december += amount;
+                    report.child_december += amount;
+                }
+            }
+            else if (year == 2025)
+            {
+                report.withdraw_2025 += amount;
+                report.child_2025 += amount;
+            }
+            else if (year == 2026)
+            {
+                report.withdraw_2026 += amount;
+                report.child_2026 += amount;
+            }
+            else if (year == 2027)
+            {
+                report.withdraw_2027 += amount;
+                report.child_2027 += amount;
+            }
+            else if (year == 2028)
+            {
+                report.withdraw_2028 += amount;
+                report.child_2028 += amount;
+            }
+            else if (year == 2029)
+            {
+                report.withdraw_2029 += amount;
+                report.child_2029 += amount;
+            }
+            else if (year == 2030)
+            {
+                report.withdraw_2030 += amount;
+                report.child_2030 += amount;
+            }
+        }
         break;
-    }
+        case 4:
+        {
+            if (year == 2024)
+            {
 
-    save_report_data(current_user, report);
+                report.withdraw_2024 += amount;
+                report.family_2024 += amount;
 
+                if (month == 1)
+                {
+                    report.withdraw_january += amount;
+                    report.family_january += amount;
+                }
+                else if (month == 2)
+                {
+                    report.withdraw_february += amount;
+                    report.family_february += amount;
+                }
+                else if (month == 3)
+                {
+                    report.withdraw_march += amount;
+                    report.family_march += amount;
+                }
+                else if (month == 4)
+                {
+                    report.withdraw_april += amount;
+                    report.family_april += amount;
+                }
+                else if (month == 5)
+                {
+                    report.withdraw_may += amount;
+                    report.family_may += amount;
+                }
+                else if (month == 6)
+                {
+                    report.withdraw_june += amount;
+                    report.family_june += amount;
+                }
+                else if (month == 7)
+                {
+                    report.withdraw_july += amount;
+                    report.family_july += amount;
+                }
+                else if (month == 8)
+                {
+                    report.withdraw_august += amount;
+                    report.family_august += amount;
+                }
+                else if (month == 9)
+                {
+                    report.withdraw_september += amount;
+                    report.family_september += amount;
+                }
+                else if (month == 10)
+                {
+                    report.withdraw_october += amount;
+                    report.family_october += amount;
+                }
+                else if (month == 11)
+                {
+                    report.withdraw_november += amount;
+                    report.family_november += amount;
+                }
+                else if (month == 12)
+                {
+                    report.withdraw_december += amount;
+                    report.family_december += amount;
+                }
+            }
+            else if (year == 2025)
+            {
+                report.withdraw_2025 += amount;
+                report.family_2025 += amount;
+            }
+            else if (year == 2026)
+            {
+                report.withdraw_2026 += amount;
+                report.family_2026 += amount;
+            }
+            else if (year == 2027)
+            {
+                report.withdraw_2027 += amount;
+                report.family_2027 += amount;
+            }
+            else if (year == 2028)
+            {
+                report.withdraw_2028 += amount;
+                report.family_2028 += amount;
+            }
+            else if (year == 2029)
+            {
+                report.withdraw_2029 += amount;
+                report.family_2029 += amount;
+            }
+            else if (year == 2030)
+            {
+                report.withdraw_2030 += amount;
+                report.family_2030 += amount;
+            }
+        }
+        break;
+        case 5:
+        {
+            if (year == 2024)
+            {
+
+                report.withdraw_2024 += amount;
+                report.another_2024 += amount;
+
+                if (month == 1)
+                {
+                    report.withdraw_january += amount;
+                    report.another_january += amount;
+                }
+                else if (month == 2)
+                {
+                    report.withdraw_february += amount;
+                    report.another_february += amount;
+                }
+                else if (month == 3)
+                {
+                    report.withdraw_march += amount;
+                    report.another_march += amount;
+                }
+                else if (month == 4)
+                {
+                    report.withdraw_april += amount;
+                    report.another_april += amount;
+                }
+                else if (month == 5)
+                {
+                    report.withdraw_may += amount;
+                    report.another_may += amount;
+                }
+                else if (month == 6)
+                {
+                    report.withdraw_june += amount;
+                    report.another_june += amount;
+                }
+                else if (month == 7)
+                {
+                    report.withdraw_july += amount;
+                    report.another_july += amount;
+                }
+                else if (month == 8)
+                {
+                    report.withdraw_august += amount;
+                    report.another_august += amount;
+                }
+                else if (month == 9)
+                {
+                    report.withdraw_september += amount;
+                    report.another_september += amount;
+                }
+                else if (month == 10)
+                {
+                    report.withdraw_october += amount;
+                    report.another_october += amount;
+                }
+                else if (month == 11)
+                {
+                    report.withdraw_november += amount;
+                    report.another_november += amount;
+                }
+                else if (month == 12)
+                {
+                    report.withdraw_december += amount;
+                    report.another_december += amount;
+                }
+            }
+            else if (year == 2025)
+            {
+                report.withdraw_2025 += amount;
+                report.another_2025 += amount;
+            }
+            else if (year == 2026)
+            {
+                report.withdraw_2026 += amount;
+                report.another_2026 += amount;
+            }
+            else if (year == 2027)
+            {
+                report.withdraw_2027 += amount;
+                report.another_2027 += amount;
+            }
+            else if (year == 2028)
+            {
+                report.withdraw_2028 += amount;
+                report.another_2028 += amount;
+            }
+            else if (year == 2029)
+            {
+                report.withdraw_2029 += amount;
+                report.another_2029 += amount;
+            }
+            else if (year == 2030)
+            {
+                report.withdraw_2030 += amount;
+                report.another_2030 += amount;
+            }
+        }
+        break;
+
+        default:
+            printf("\n\t\t\t\t\t\t Invalid choice! Please try again.\n");
+            break;
+        }
+
+        save_report_data(current_user, report);
     }
     getch();
     return current_user;
@@ -829,97 +1036,95 @@ void account_report(struct user current_user)
 {
     struct accountReport report = get_report_data(current_user);
 
-        system("cls");
+    system("cls");
 
-        printf("\n\n\n\t\t\t\t\t\t\t\t  *** Account Report ***\n");
+    printf("\n\n\n\t\t\t\t\t\t\t\t  *** Account Report ***\n");
 
-        printf("\n\n\t\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
+    printf("\n\n\t\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
 
+    printf("\n\t\t\t\t\t\t\t    ***The Months Report Of Running Year***\n\n");
 
-        printf("\n\t\t\t\t\t\t\t    ***The Months Report Of Running Year***\n\n");
+    printf("\n\t\t 01. January-   | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+           report.deposit_january, report.withdraw_january, report.house_january, report.food_january,
+           report.child_january, report.family_january, report.another_january);
 
-        printf("\n\t\t 01. January-   | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
-          report.deposit_january, report.withdraw_january, report.house_january, report.food_january,
-          report.child_january, report.family_january, report.another_january);
-
-        printf("\n\t\t 02. February-  | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 02. February-  | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_february, report.withdraw_february, report.house_february, report.food_february,
            report.child_february, report.family_february, report.another_february);
 
-        printf("\n\t\t 03. March-     | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 03. March-     | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_march, report.withdraw_march, report.house_march, report.food_march,
            report.child_march, report.family_march, report.another_march);
 
-        printf("\n\t\t 04. April-     | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 04. April-     | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_april, report.withdraw_april, report.house_april, report.food_april,
            report.child_april, report.family_april, report.another_april);
 
-        printf("\n\t\t 05. May-       | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 05. May-       | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_may, report.withdraw_may, report.house_may, report.food_may,
            report.child_may, report.family_may, report.another_may);
 
-        printf("\n\t\t 06. June-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 06. June-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_june, report.withdraw_june, report.house_june, report.food_june,
            report.child_june, report.family_june, report.another_june);
 
-        printf("\n\t\t 07. July-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 07. July-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_july, report.withdraw_july, report.house_july, report.food_july,
            report.child_july, report.family_july, report.another_july);
 
-        printf("\n\t\t 08. August-    | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 08. August-    | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_august, report.withdraw_august, report.house_august, report.food_august,
            report.child_august, report.family_august, report.another_august);
 
-        printf("\n\t\t 09. September- | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 09. September- | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_september, report.withdraw_september, report.house_september, report.food_september,
            report.child_september, report.family_september, report.another_september);
 
-        printf("\n\t\t 10. October-   | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 10. October-   | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_october, report.withdraw_october, report.house_october, report.food_october,
            report.child_october, report.family_october, report.another_october);
 
-        printf("\n\t\t 11. November-  | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 11. November-  | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_november, report.withdraw_november, report.house_november, report.food_november,
            report.child_november, report.family_november, report.another_november);
 
-        printf("\n\t\t 12. December-  | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 12. December-  | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_december, report.withdraw_december, report.house_december, report.food_december,
            report.child_december, report.family_december, report.another_december);
 
-        printf("\n\n\t\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
+    printf("\n\n\t\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
 
-        printf("\n\t\t\t\t\t\t\t      ***The Yearly Report Of Account***\n\n");
+    printf("\n\t\t\t\t\t\t\t      ***The Yearly Report Of Account***\n\n");
 
-        printf("\n\t\t 01. 2024-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 01. 2024-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2024, report.withdraw_2024, report.house_2024, report.food_2024,
            report.child_2024, report.family_2024, report.another_2024);
 
-        printf("\n\t\t 02. 2025-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 02. 2025-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2025, report.withdraw_2025, report.house_2025, report.food_2025,
            report.child_2025, report.family_2025, report.another_2025);
 
-        printf("\n\t\t 03. 2026-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 03. 2026-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2026, report.withdraw_2026, report.house_2026, report.food_2026,
            report.child_2026, report.family_2026, report.another_2026);
 
-        printf("\n\t\t 04. 2027-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 04. 2027-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2027, report.withdraw_2027, report.house_2027, report.food_2027,
            report.child_2027, report.family_2027, report.another_2027);
 
-        printf("\n\t\t 05. 2028-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 05. 2028-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2028, report.withdraw_2028, report.house_2028, report.food_2028,
            report.child_2028, report.family_2028, report.another_2028);
 
-        printf("\n\t\t 06. 2029-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 06. 2029-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2029, report.withdraw_2029, report.house_2029, report.food_2029,
            report.child_2027, report.family_2027, report.another_2027);
 
-        printf("\n\t\t 07. 2030-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
+    printf("\n\t\t 07. 2030-      | Deposit: %-6d | Withdraw: %-6d | House: %-6d | Food: %-6d | Child: %-6d | Family: %-6d | Another: %-6d\n",
            report.deposit_2030, report.withdraw_2030, report.house_2030, report.food_2030,
            report.child_2030, report.family_2030, report.another_2030);
 
-        printf("\n\n\t\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
-
+    printf("\n\n\t\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
 
     getch();
 }
@@ -943,11 +1148,11 @@ void view_all_transactions(struct user current_user)
 
     system("cls");
 
-        printf("\n\t\t\t\t\t\t *** All Transactions for %s ***\n", current_user.name);
+    printf("\n\t\t\t\t\t\t *** All Transactions for %s ***\n", current_user.name);
 
-        divider();
+    divider();
 
-    int tran_no=0;
+    int tran_no = 0;
 
     while (fread(&record, sizeof(struct transaction), 1, fp))
     {
@@ -958,7 +1163,6 @@ void view_all_transactions(struct user current_user)
     fclose(fp);
     getch();
 }
-
 
 // View account details | user menu 5
 void account_details(struct user current_user)
@@ -978,7 +1182,7 @@ void account_details(struct user current_user)
     getch();
 }
 
-//user support request | user menu 6
+// user support request | user menu 6
 void submit_support_request(struct user current_user)
 {
     struct support_request request;
@@ -1075,12 +1279,12 @@ void request_account_deletion(struct user current_user)
 {
     char choice;
 
-        printf("\n\t\t\t\t\t\t If you surely want to delete you account type (y/n): ");
+    printf("\n\t\t\t\t\t\t If you surely want to delete you account type (y/n): ");
 
-        scanf(" %c", &choice);
+    scanf(" %c", &choice);
 
     if (choice == 'y' || choice == 'Y')
-        {
+    {
 
         struct deletion_request request;
 
@@ -1090,17 +1294,14 @@ void request_account_deletion(struct user current_user)
         save_deletion_request(request);
 
         printf("\n\t\t\t\t\t\t Account deletion request is submitted.\n");
-
-        }
+    }
     else
-        {
+    {
         printf("\n\t\t\t\t\t\t Account deletion request is not submitted.\n");
-        }
-
+    }
 
     getch();
 }
-
 
 // Admin menu
 void admin_menu()
@@ -1148,7 +1349,6 @@ void admin_menu()
         }
     }
 }
-
 
 // view Support Ticket | admin menu 1
 void view_support_requests()
@@ -1225,7 +1425,7 @@ void approve_deletion_requests()
             strcpy(user_file, request.phone);
             strcat(user_file, ".dat");
 
-          if (remove(user_file) == 0)
+            if (remove(user_file) == 0)
             {
                 printf("\n\t\t\t\t\t\t Account with phone %s deleted successfully.\n", request.phone);
             }
@@ -1248,7 +1448,8 @@ void approve_deletion_requests()
 }
 
 // Search user account | admin menu 3
-void search_account() {
+void search_account()
+{
 
     struct user user;
     char phone[50], filename[50];
@@ -1256,19 +1457,20 @@ void search_account() {
 
     system("cls");
 
-        printf("\n\n\n\t\t\t\t\t\t *User Account Search*\n");
+    printf("\n\n\n\t\t\t\t\t\t *User Account Search*\n");
 
-        divider();
+    divider();
 
-        printf("\n\t\t\t\t\t\t Enter the phone number to search: ");
-        scanf("%s", phone);
+    printf("\n\t\t\t\t\t\t Enter the phone number to search: ");
+    scanf("%s", phone);
 
-        divider();
+    divider();
 
     strcpy(filename, phone);
     fp = fopen(strcat(filename, ".dat"), "r");
 
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
 
         printf("\n\t\t\t\t\t *** Account not found ***\n");
 
@@ -1280,13 +1482,13 @@ void search_account() {
     fread(&user, sizeof(struct user), 1, fp);
     fclose(fp);
 
-        printf("\n\t\t\t\t\t\t *** Account Found ***\n");
-        printf("\n\t\t\t\t\t\t Name     : %s\n", user.name);
-        printf("\n\t\t\t\t\t\t Phone    : %s\n", user.phone);
-        printf("\n\t\t\t\t\t\t Balance  : %d\n", user.balance);
-        printf("\n\t\t\t\t\t\t Password : %s\n", user.password);
+    printf("\n\t\t\t\t\t\t *** Account Found ***\n");
+    printf("\n\t\t\t\t\t\t Name     : %s\n", user.name);
+    printf("\n\t\t\t\t\t\t Phone    : %s\n", user.phone);
+    printf("\n\t\t\t\t\t\t Balance  : %d\n", user.balance);
+    printf("\n\t\t\t\t\t\t Password : %s\n", user.password);
 
-        divider();
+    divider();
 
     getch();
 }
@@ -1307,11 +1509,11 @@ void view_all_users()
 
     system("cls");
 
-        printf("\n\t\t\t\t\t\t *** All Registered Users ***\n");
+    printf("\n\t\t\t\t\t\t *** All Registered Users ***\n");
 
     divider();
 
-    int userno=0;
+    int userno = 0;
 
     while (fread(&user_data, sizeof(struct user), 1, fp))
     {
@@ -1423,14 +1625,16 @@ void save_report_data(struct user current_user, struct accountReport report)
 
     FILE *file = fopen(filename, "w");
 
-    if (file == NULL) {
+    if (file == NULL)
+    {
 
         perror("\n\t\t\t\t\t\t Error opening file to save report");
         exit(1);
     }
 
     size_t written = fwrite(&report, sizeof(struct accountReport), 1, file);
-    if (written != 1) {
+    if (written != 1)
+    {
 
         perror("\n\t\t\t\t\t\t Error writing report to file");
     }
@@ -1448,13 +1652,15 @@ struct accountReport get_report_data(struct user current_user)
 
     FILE *file = fopen(filename, "r");
 
-    if (file == NULL) {
+    if (file == NULL)
+    {
 
         printf("\n\t\t\t\t\t\t No existing report found for %s. Initializing a new report...\n", current_user.account_number);
 
         memset(&report, 0, sizeof(report));
-
-    } else {
+    }
+    else
+    {
 
         fread(&report, sizeof(struct accountReport), 1, file);
 
@@ -1487,7 +1693,6 @@ void record_transaction(struct user current_user, char type[], int amount)
     }
 }
 
-
 // Divider function
 void divider()
 {
@@ -1505,9 +1710,10 @@ void exit_program()
 
 Digital Money Manager Project by
 
-01. Name: Md Jakaria Nur | ID: 232-35-252
-02. Name: Sami Ansari    | ID: 232-35-176
-03. Monira Islam         | ID: 232-35-015
+01. Name: Monira Islam         | ID: 232-35-017
+02. Name: Md Jakaria Nur | ID: 232-35-252
+03. Name: Sami Ansari    | ID: 232-35-176
+
 
 */
 
