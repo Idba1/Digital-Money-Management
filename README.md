@@ -149,6 +149,6 @@ gcc -o digital_money_manager main.c
 
 ## **Contact Information**  
 For support or inquiries:  
-- **Email**: [moniraislamself@gmail.com](mailto:moniraislamself@gmail.com)  
+- **Email**: [moniraislam793@gmail.com](mailto:moniraislam793@gmail.com)  
 - **Phone**: +8801618360986  
 
